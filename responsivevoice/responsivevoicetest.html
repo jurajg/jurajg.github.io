@@ -12,7 +12,7 @@
 
 <script>
 
-function hellon() {
+function rekt() {
 	responsiveVoice.cancel();
 	responsiveVoice.speak('Rekt');
 } 
@@ -46,6 +46,74 @@ var skjazykolam = 'Skuska slovenskeho jayzka. V nasej peci mysi pistia, v nasej 
 
 </script>
 
+Hello,
+<p>
+Here's a test of <a href="https://responsivevoice.org/text-to-speech-script-server/">ResponsiveVoice.js library</a>.
+Start by pressing the buttons under this text description.
+</p>
+
+<p>
+Feel free to press F12 and play around with the code.
+You can also right click on this page and and select <b>view page source</b> (in Chrome) to look inside the code.
+</p>
+<p>
+If you want to make the changes pernament:
+<ul>
+<li>press CTRL+S to save this webpage to HDD in your computer.</li>
+<li>Next, open the source code using <a href="https://notepad-plus-plus.org/download/">notepad++</a></li>
+<li>Edit the .html and save it again somewhere</li>
+<li>Open it using Notepad menu Run->Launch in Chrome. (or in Firefox, whichever you have and like).</li>
+</ul>
+
+<p>
+There are buttons (input tag) inside html. they have <b>onmouseover</b> attribute that runs javascript.
+Like this:
+</p>
+<pre>
+onclick=" responsiveVoice.cancel(); responsiveVoice.speak('Hello neighbor!');"
+</pre>
+
+<p>
+First command responsiveVoice.cancel stops any text speech that is in progress. Next, responsiveVoice.speak
+speaks a text that is inside the parenthesis and apostrophes. Use ordinary straight apostrophes ', not the back quote `.
+</p>
+
+<p>
+Some of the javascript is inside functions. For example inside the rekt function.
+You can modify the function and the button named <b>Test 2</b> will run your code.
+</p>
+
+<br/>
+<br/>
+
+<input
+	onclick=" responsiveVoice.cancel(); responsiveVoice.speak('Hello neighbor!');"
+	onmouseover="cm();"
+	type="button"
+	value="Test 1" />
+
+<br/>
+<br/>	
+	
+<input
+	onclick=" rekt();"
+	onmouseover="ncm();"
+	type="button"
+	value="Test 2" />
+
+<br/>
+<br/>
+
+<input
+	onclick="spam('9', 50);"
+	onmouseover="sorry();"
+	type="button"
+	value="Spam" />
+
+<br/>
+<br/>
+
+
 <input
 	onclick=" responsiveVoice.cancel(); responsiveVoice.speak('Já jdu domů.','Czech Female');"
 	onmouseover="cm();"
@@ -76,33 +144,6 @@ var skjazykolam = 'Skuska slovenskeho jayzka. V nasej peci mysi pistia, v nasej 
 <br/>
 
 
-
-<input
-	onclick=" responsiveVoice.cancel(); responsiveVoice.speak('Hello neighbor!');"
-	onmouseover="cm();"
-	type="button"
-	value="Test 1" />
-
-<br/>
-<br/>	
-	
-<input
-	onclick=" hellon();"
-	onmouseover="ncm();"
-	type="button"
-	value="Test 2" />
-
-<br/>
-<br/>
-
-<input
-	onclick="spam('9', 50);"
-	onmouseover="sorry();"
-	type="button"
-	value="Spam" />
-
-</body>
-
 <br/>
 Voices:
 <br/>
@@ -114,5 +155,9 @@ Voices:
     document.write(k.name+'<br/>');
   });
 </script>
+
+</body>
+
+
 </html>
 
