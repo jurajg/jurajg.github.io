@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ResponsiveVoice.js test</title>
+</head>
+
+<body>
+
+<!-- https://responsivevoice.org/text-to-speech-script-server/ -->
+
+<script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+
+<script>
+
+function hellon() {
+	responsiveVoice.cancel();
+	responsiveVoice.speak('Rekt');
+} 
+
+function cm() {
+	responsiveVoice.cancel();
+	responsiveVoice.speak('Click me!');
+}
+
+function ncm() {
+	responsiveVoice.cancel();
+	responsiveVoice.speak('No! Click me instead!');
+}
+
+function spam(letter, num) {
+	letter = letter + '.';	
+	var text = letter.repeat(num);
+	text = text + '^'.repeat(10);
+	responsiveVoice.cancel();
+	responsiveVoice.speak(text,"UK English Female", {rate: 1.5});
+}
+
+function sorry() {
+	responsiveVoice.cancel();
+	responsiveVoice.speak('If you click this you will be sorry!');
+}
+
+var skjazykolamdia = 'Skúška slovenského jayzka.  V našej peci myši pištia, v našej peci psík spí. Šašo vešia osušku. Strč prst skrz krk. Šašo vešia osušku. Ešte sa tie makovičky nepovymakovičkovali.';
+var skjazykolam = 'Skuska slovenskeho jayzka. V nasej peci mysi pistia, v nasej peci psik spi. Saso vesia osusku. Strc prst skrz krk. Saso vesia osusku. Este sa tie makovicky nepovymakovickovali.';
+
+
+</script>
+
+<input
+	onclick=" responsiveVoice.cancel(); responsiveVoice.speak('Já jdu domů.','Czech Female');"
+	onmouseover="cm();"
+	type="button"
+	value="Czech test 1" />
+
+<br/>
+<br/>
+
+<input
+	onclick=" responsiveVoice.cancel(); responsiveVoice.speak(skjazykolamdia,'Slovak Female');"
+	onmouseover="cm();"
+	type="button"
+	value="Slovak test 2" />
+	
+
+<br/>
+<br/>
+
+<input
+	onclick=" responsiveVoice.cancel(); responsiveVoice.speak(skjazykolam,'Slovak Female');"
+	onmouseover="cm();"
+	type="button"
+	value="Slovak test 1 no diacritics" />
+
+	
+<br/>
+<br/>
+
+
+
+<input
+	onclick=" responsiveVoice.cancel(); responsiveVoice.speak('Hello neighbor!');"
+	onmouseover="cm();"
+	type="button"
+	value="Test 1" />
+
+<br/>
+<br/>	
+	
+<input
+	onclick=" hellon();"
+	onmouseover="ncm();"
+	type="button"
+	value="Test 2" />
+
+<br/>
+<br/>
+
+<input
+	onclick="spam('9', 50);"
+	onmouseover="sorry();"
+	type="button"
+	value="Spam" />
+
+</body>
+
+<br/>
+Voices:
+<br/>
+<br/>
+
+<script>
+  var voicelist = responsiveVoice.getVoices();
+  voicelist.forEach(function(k){
+    document.write(k.name+'<br/>');
+  });
+</script>
+</html>
+
