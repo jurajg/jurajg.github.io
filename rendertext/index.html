@@ -1,0 +1,185 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>WHAAAAT?</title>
+  <meta name="description" content="ASCII text rendering test">
+  
+  <div id="render" style="font-family: 'Courier New', Courier, monospace;">
+  </div>
+  
+</head>
+
+<body>
+  <script>
+  
+  var character = 0;
+  var dbl_ul =   "&#x2554;"; // ╔
+  var dbl_ur =   "&#x2557;"; // ╗
+  var dbl_dl =   "&#x255A;"; // ╚
+  var dbl_dr =   "&#x255D;"; // ╝
+  var dbl_l =    "&#x2563;"; // ╣
+  var dbl_r =    "&#x2560;"; // ╠  
+  var dbl_sr =   "&#x255F;"; // ╟
+  var dbl_hor =  "&#x2550;"; // ═
+  var dbl_vert = "&#x2551;"; // ║
+  var dos_lshade = "&#x2591;"; // ░
+  var dos_mshade = "&#x2592;"; // ▒
+  var dos_dshade = "&#x2593;"; // ▓
+  var bulletop = "&#x2219;"; // ∙ 
+  var middot = "&middot;"; // ·
+  
+  
+  var tsb_w = 80;
+  var tsb_h = 25;
+  var tsb = createTextScreenBuffer(tsb_w, tsb_h);
+  
+
+// random functions source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random  
+/**
+* Returns a random number between min (inclusive) and max (exclusive)
+*/
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+  
+  
+  function createTextScreenBuffer(w, h) {
+	var buf = new Array();
+
+	for(r=0;r<h;r++){
+	    rowtext = new Array();
+	    for(c=0;c<w;c++){
+		    rowtext.push("X");
+		}
+		buf.push(rowtext);
+	}
+	
+	return buf;
+  }
+  
+  function renderTextScreenBuffer(w, h) {
+	text = "";
+	for(r=0;r<h;r++){
+	    rowtext = "";
+		for(c=0;c<w;c++){
+		    rowtext += tsb[r][c];
+		}
+		text += rowtext + "<br/>";
+	}
+	return text;
+  }
+  
+  function putText(x,y, text) {
+	if(y<0 || y>=tsb_h) return ;
+	for(i=0;i<text.length;i++){
+		xx = x+i;
+		if(xx>=0 && xx<tsb_w) tsb[y][xx]=text.charAt(i);
+	}
+  }
+  
+  function render() {
+    var w = 80;
+	var h = 25;
+	var r,c;
+	var ch = String.fromCharCode(65+character);
+	
+	var noisechars = [",","`","~",":","'",dos_lshade,bulletop, middot, "&iquest;", "&sup2;"];
+	
+	// random background noise
+	for(r=0;r<h;r++){
+	    for(c=0;c<w;c++){
+			index = getRandomInt(0, noisechars.length-1);
+			
+		    tsb[r][c]=noisechars[index];
+		}
+	}
+	
+	// title rows
+	for(r=1;r<3;r++){
+		for(c=0;c<w;c++){
+			tsb[r][c]="&nbsp;";
+		}
+		tsb[r][0]=dbl_vert;
+		tsb[r][tsb_w-1]=dbl_vert;
+	}
+
+	// bottom margin of title
+	for(c=0;c<w;c++){
+		tsb[0][c]=dbl_hor;
+		tsb[3][c]=dbl_hor;
+		tsb[tsb_h-1][c]=dbl_hor;
+	}
+	
+	tsb[r][0]=dbl_r;
+	tsb[r][tsb_w-1]=dbl_l;
+
+	// vertical edges
+	for(r=4;r<tsb_h-1;r++){
+		tsb[r][0]=dbl_vert;
+		tsb[r][tsb_w-1]=dbl_vert;		
+	}
+	
+	// corners
+	tsb[0][0] = dbl_ul;
+	tsb[0][tsb_w-1] = dbl_ur;
+	tsb[tsb_h-1][0] = dbl_dl;
+	tsb[tsb_h-1][tsb_w-1] = dbl_dr;
+	
+	// title
+	
+	for(r=1;r<3;r++){
+		tsb[r][1]=dos_dshade;
+		tsb[r][2]=dos_dshade;
+		tsb[r][3]=dos_mshade;
+		tsb[r][4]=dos_mshade;
+		tsb[r][tsb_w-5]=dos_mshade;
+		tsb[r][tsb_w-4]=dos_mshade;
+		tsb[r][tsb_w-3]=dos_dshade;
+		tsb[r][tsb_w-2]=dos_dshade;
+		for(c=5;c<tsb_w-5;c++){
+			tsb[r][c]=dos_lshade;
+		}
+	}
+	
+	// title text
+	putText(tsb_w/2-2,2, "WHAT?");
+		
+	
+	text = renderTextScreenBuffer(tsb_w, tsb_h);
+	document.getElementById("render").innerHTML = text;
+  }
+
+  function runloop() {
+      render();
+      character = (character + 1)%26;
+      setTimeout(runloop, delayms);
+  }
+  
+
+  window.onload = function (){
+    delayms = 60;
+    runloop();
+	
+  }();   
+
+
+  </script>
+
+</body>
+</html>
