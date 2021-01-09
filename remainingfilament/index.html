@@ -8,68 +8,89 @@
 </head>
 <body>
 <form action="">
-  <p>
-  Filament width [mm]:
-  <select id="filamentWidth">
-    <option value="1.75">1.75 mm</option>
-    <option value="2.85">2.85 mm</option>
-  </select><br/>
-  Filament density [g/cm3]:
-  <!- filament densities source: https://bitfab.io/blog/3d-printing-materials-densities/ -->
-  <select id="filamentDensity">
-    <option value="1.24">PLA 1.24</option>
-    <option value="1.04">ABS 1.04</option>
-    <option value="1.27">PETG 1.27</option>
-    <option value="1.52">NYLON 1.52</option>
-    <option value="1.21">Flexible (TPU) 1.21</option>
-    <option value="1.3">Polycarbonate (PC) 1.3</option>
-    <option value="1.28">Wood 1.28</option>
-    <option value="1.3">Carbon FIber 1.3</option>
-    <option value="1.19">PC/ABS 1.19</option>
-    <option value="1.03">HIPS 1.03</option>
-    <option value="1.23">PVA 1.23</option>
-    <option value="1.05">ASA 1.05</option>
-    <option value="0.9">Polypropylene (PP) 0.9</option>
-    <option value="1.4">Acetal (POM) 1.4</option>
-    <option value="1.18">PMMA 1.18</option>
-    <option value="2.16">Semi flexible (FPE) 2.16</option><br/>
-  </select><br/>
-
-  Spool width [mm]:
-  <input type="text" id="spoolWidth">
-  (Width of space for windings)<br/>
-
-  Min diameter [mm]:
-  <input type="text" id="minDiameter">
-  (measure outer diameter of cylinder inside of spool)<br/>
-
-  Remaining filament diameter [mm]:
-  <input type="text" id="filamentDiameter">
-  (measure outer diameter of filament winding)<br/>
-  Correction constant [-]:
-  <input type="text" id="correctionConstant" value="0.8">
-  <br/>
-</p>
-<p>
-  <button type="button" name="button" onclick="calculate()">Calculate</button>
-</p>
-<p>
-  Calculated values:
-  <br/>
-  Remaining length [m]:
-  <input type="text" id="remainingLength" value="">
-  <br/>
-  Remaining weight [g]:
-  <input type="text" id="remainingWeight" value="">
-  <br/>
-  <br/>
-
-</p>
+  <table>
+  <tr>
+    <td>Filament width [mm]:</td>
+    <td>
+      <select id="filamentWidth">
+        <option value="1.75">1.75 mm</option>
+        <option value="2.85">2.85 mm</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Filament density [g/cm3]:</td>
+    <td>
+      <!- filament densities source: https://bitfab.io/blog/3d-printing-materials-densities/ -->
+      <select id="filamentDensity">
+        <option value="1.24">PLA 1.24</option>
+        <option value="1.04">ABS 1.04</option>
+        <option value="1.27">PETG 1.27</option>
+        <option value="1.52">NYLON 1.52</option>
+        <option value="1.21">Flexible (TPU) 1.21</option>
+        <option value="1.3">Polycarbonate (PC) 1.3</option>
+        <option value="1.28">Wood 1.28</option>
+        <option value="1.3">Carbon FIber 1.3</option>
+        <option value="1.19">PC/ABS 1.19</option>
+        <option value="1.03">HIPS 1.03</option>
+        <option value="1.23">PVA 1.23</option>
+        <option value="1.05">ASA 1.05</option>
+        <option value="0.9">Polypropylene (PP) 0.9</option>
+        <option value="1.4">Acetal (POM) 1.4</option>
+        <option value="1.18">PMMA 1.18</option>
+        <option value="2.16">Semi flexible (FPE) 2.16</option><br/>
+      </select>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Spool width [mm]:</td>
+    <td><input type="text" id="spoolWidth"></td>
+    <td>(Width of space for windings)</td>
+  </tr>
+  <tr>
+    <td>Min diameter [mm]:</td>
+    <td><input type="text" id="minDiameter"></td>
+    <td>(measure outer diameter of cylinder inside of spool)</td>
+  </tr>
+  <tr>
+    <td>Remaining filament diameter [mm]:</td>
+    <td><input type="text" id="filamentDiameter"></td>
+    <td>(measure outer diameter of filament winding)</td>
+  </tr>
+  <tr>
+    <td>Correction constant [-]:</td>
+    <td><input type="text" id="correctionConstant" value="0.8"></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><button type="button" name="button" onclick="calculate()">Calculate</button></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Calculated values:</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Remaining length [m]:</td>
+    <td><input type="text" id="remainingLength" value=""></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Remaining weight [g]:</td>
+    <td><input type="text" id="remainingWeight" value=""></td>
+    <td></td>
+  </tr>
+</table>
 </form>
 
 
 <p>
-Source of material densities: <a href="https://bitfab.io/blog/3d-printing-materials-densities/">https://bitfab.io/blog/3d-printing-materials-densities/</a><br/>
+Sources:<br>
+Inspired by original Remaining filament length calculator by Deemoss November 09, 2016: <a href="https://www.thingiverse.com/thing:1880517/">https://www.thingiverse.com/thing:1880517/</a><br/>
+Table of material densities: <a href="https://bitfab.io/blog/3d-printing-materials-densities/">https://bitfab.io/blog/3d-printing-materials-densities/</a><br/>
 </p>
 
 </body>
