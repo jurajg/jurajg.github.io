@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<!--
+MIT License
+
+Copyright (c) 2022 Juraj Galbavy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<head>
+<script>
+// code to save the svg was posted by https://stackoverflow.com/users/1301640/davethescientist
+// https://stackoverflow.com/questions/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an
+//There are 5 steps. I often use this method to output inline svg.
+
+//1. get inline svg element to output.
+//2. get svg source by XMLSerializer.
+//3. add name spaces of svg and xlink.
+//4. construct url data scheme of svg by encodeURIComponent method.
+//5. set this url to href attribute of some "a" element, and right click this link to download svg file.
+
+function makeSvgDownloadable(id) {
+    //get svg element.
+    var svg = document.getElementById(id);
+
+    //get svg source.
+    var serializer = new XMLSerializer();
+    var source = serializer.serializeToString(svg);
+
+    //add name spaces.
+    if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+    source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+    if(!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)){
+    source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+    }
+
+    //add xml declaration
+    source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+    //convert svg source to URI data scheme.
+    var url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
+
+    //set url value to a element's href attribute.
+    document.getElementById("link").href = url;
+    //you can download svg file by right click menu.
+}
+
+</script>
+
+</head>
+
+<body style="background-color: beige;">
+
+<div style="font-size:x-large">
+<h1>Astigmatism fan test image</h1>
+Copyright (c) 2022 Juraj Galbavy, licensed under MIT License. View source code to see full license and other author attributions.<br>
+The image has 300 dpi.<br>
+Right click on a link below to download this picture:<br>
+<a id="link">Download svg</a><br>
+</div>
+<svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg><br>
+</body>
+
+<script>
+    dpi = 300;
+    inchmm = 25.4;
+    dpmm = dpi / inchmm;
+    w = Math.trunc(dpmm*297);
+    h = Math.trunc(dpmm*210);
+
+    const attw = document.createAttribute("width");
+    attw.value = w;
+    const atth = document.createAttribute("height");
+    atth.value = h;
+    const svg = document.getElementById("svg");
+    svg.setAttributeNode(attw);
+    svg.setAttributeNode(atth);
+
+    var bg = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    bg.setAttribute('width','100%');
+    bg.setAttribute('height','100%');
+    bg.setAttribute('fill','white');
+    svg.appendChild(bg);
+  
+    totalH = 0.95*(w/2);
+    cx = w/2;
+    cy = h-(h-totalH)/2;
+    LineLenEdge = 0.9*(w/2);
+    LineLenStart = 0.1*(w/2);
+    TextLenStart = 0.94*(w/2);
+    
+    txofs = 0.035*w/2;
+    fontSize = 24.0*dpi/100;
+    strokeWidth = 8*dpi/100;
+
+    function deg2rad(deg) {
+        return deg*Math.PI/180;
+    } 
+
+    for(angle=0;angle<190;angle+=10) {
+        
+        ax = cx + LineLenStart*Math.cos(deg2rad(angle));
+        ay = cy - LineLenStart*Math.sin(deg2rad(angle));
+        bx = cx + LineLenEdge*Math.cos(deg2rad(angle));
+        by = cy - LineLenEdge*Math.sin(deg2rad(angle));
+        
+        tx = cx + TextLenStart*Math.cos(deg2rad(angle)) - txofs;
+        ty = cy - TextLenStart*Math.sin(deg2rad(angle));
+
+        var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+        newLine.setAttribute('x1',ax.toString());
+        newLine.setAttribute('y1',ay.toString());
+        newLine.setAttribute('x2',bx.toString());
+        newLine.setAttribute('y2',by.toString());
+        newLine.setAttribute("stroke", "black");
+        newLine.setAttribute("stroke-width", strokeWidth.toString());
+        svg.appendChild(newLine);
+
+        var label = document.createElementNS('http://www.w3.org/2000/svg','text');
+        label.setAttribute('x', tx);
+        label.setAttribute('y', ty);
+        label.setAttribute('font-size', fontSize.toString()+'px');
+        label.setAttribute('font-weight', 'bold');
+        var text = document.createTextNode(angle.toString()+"°");
+        label.appendChild(text);
+        svg.appendChild(label);
+
+    }
+    
+    makeSvgDownloadable('svg');       
+</script>
+</html>
+
